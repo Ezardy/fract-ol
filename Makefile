@@ -6,7 +6,9 @@ BUILD_DIR=build
 SOURCE_DIR=source
 
 MODULES=main
-OBJ=$(addprefix $(BUILD_DIR), $(addsuffix .o, $(MODULES)))
+OBJ=$(addprefix $(BUILD_DIR)/, $(addsuffix .o, $(MODULES)))
+
+.PHONY: all clean fclean re
 
 all: fractol
 
@@ -18,6 +20,12 @@ $(BUILD_DIR)/%.o: $(SOURCE_DIR)/%.c header/fractol.h Makefile
 
 $(BUILD_DIR):
 	mkdir $@
+
+minilibx/libmlx.a:
+	make -C minilibx all
+
+libft/libft.a:
+	make -C libft all
 
 clean:
 	rm -rf $(BUILD_DIR)
