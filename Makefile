@@ -1,11 +1,11 @@
-CFLAGS=-Wall -Wextra -Werror
+CFLAGS=-Wall -Wextra -Werror -g
 LFLAGS=-Llibft -Lminilibx
 IFLAGS=-Iheader -I. -Iminilibx
 
 BUILD_DIR=build
 SOURCE_DIR=source
 
-MODULES=main
+MODULES=main util
 OBJ=$(addprefix $(BUILD_DIR)/, $(addsuffix .o, $(MODULES)))
 
 .PHONY: all clean fclean re
