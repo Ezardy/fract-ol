@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:32:14 by zanikin           #+#    #+#             */
-/*   Updated: 2024/04/21 14:32:07 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/04/21 19:03:50 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@ typedef struct s_fract
 	size_t		r;
 	size_t		px;
 	size_t		py;
-	long double	ox;
-	long double	oy;
 	long double	cx;
 	long double	cy;
+	long double	ox;
+	long double	oy;
 	long double	scale;
 	void		(*zn)(long double *x, long double *y, struct s_fract *fract);
 }	t_fract;
@@ -61,4 +61,5 @@ int		exit_program(t_render *r);
 void	burning_ship(long double *x, long double *y, t_fract *fract);
 void	set_pixel_color(size_t x, size_t y, int color, t_render *r);
 int		choose_fractal(int argc, char **argv, t_render *r);
+int		mouse_hook(int button, int x, int y, t_render *r);
 #endif

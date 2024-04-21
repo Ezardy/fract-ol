@@ -5,7 +5,7 @@ IFLAGS=-Iheader -I. -Iminilibx
 BUILD_DIR=build
 SOURCE_DIR=source
 
-MODULES=main util
+MODULES=main render_util hook fractal_setting
 OBJ=$(addprefix $(BUILD_DIR)/, $(addsuffix .o, $(MODULES)))
 
 .PHONY: all clean fclean re

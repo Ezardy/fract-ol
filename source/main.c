@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:34:18 by zanikin           #+#    #+#             */
-/*   Updated: 2024/04/21 14:38:39 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/04/21 19:11:11 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int argc, char **argv)
 		r.img_buff = mlx_get_data_addr(r.img, &r.pixel_bits, &r.line_bytes,
 				&r.endian);
 		mlx_key_hook(r.win, key_hook, &r);
+		mlx_mouse_hook(r.win, mouse_hook, &r);
 		mlx_hook(r.win, DestroyNotify, 0, exit_program, &r);
 		render_image(&r);
 		mlx_loop(r.mlx);
@@ -45,8 +46,8 @@ void	render_image(t_render *r)
 		r->f.px = 0;
 		while (r->f.px < WIN_WIDTH)
 		{
-			x = (r->f.px - r->f.ox) * r->f.scale;
-			y = (r->f.py + r->f.oy) * r->f.scale;
+			x = (r->f.px + r->f.cx) * r->f.scale + r->f.ox;
+			y = (r->f.py + r->f.cy) * r->f.scale + r->f.oy;
 			i = 0;
 			while (x * x + y * y < r->f.r && i++ < MAX_ITER)
 				r->f.zn(&x, &y, &r->f);
@@ -60,13 +61,11 @@ void	render_image(t_render *r)
 	mlx_put_image_to_window(r->mlx, r->win, r->img, 0, 0);
 }
 
-void	burning_ship(long double *x, long double *y, t_fract *fract)
+void	burning_ship(long double *x, long double *y, t_fract *f)
 {
 	long double	tmp;
 
-	tmp = *x * *x - *y * *y + fract->cx
-		+ (fract->px - fract->ox) * fract->scale;
-	*y = fabsl(2 * *x * *y) + fract->cy
-		+ (fract->py + fract->oy) * fract->scale;
+	tmp = *x * *x - *y * *y + (f->cx + f->px) * f->scale + f->ox;
+	*y = fabsl(2 * *x * *y) + (f->cy + f->py) * f->scale + f->oy;
 	*x = tmp;
 }
