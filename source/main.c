@@ -6,20 +6,17 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:34:18 by zanikin           #+#    #+#             */
-/*   Updated: 2024/04/20 19:00:40 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/04/21 14:38:39 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 
-static void	render_image(t_render *r, t_fract *fract);
-
 int	main(int argc, char **argv)
 {
 	t_render	r;
-	t_fract		fract;
 
-	if (argc > 1 && choose_fractal(argc - 1, argv + 1, &fract))
+	if (argc > 1 && choose_fractal(argc - 1, argv + 1, &r))
 	{
 		r.mlx = mlx_init();
 		r.win = mlx_new_window(r.mlx, WIN_WIDTH, WIN_HEIGHT, "fract-ol");
@@ -27,38 +24,38 @@ int	main(int argc, char **argv)
 		r.img_buff = mlx_get_data_addr(r.img, &r.pixel_bits, &r.line_bytes,
 				&r.endian);
 		mlx_key_hook(r.win, key_hook, &r);
-		mlx_hook(r.win, CLOSE_WIN_EVENT, 0, exit_program, &r);
-		render_image(&r, &fract);
+		mlx_hook(r.win, DestroyNotify, 0, exit_program, &r);
+		render_image(&r);
 		mlx_loop(r.mlx);
 	}
 	ft_putstr_fd("Usage:\nfractol mandel|julia cx cy|ship\nWhere cx and cy", 1);
-	ft_putstr_fd(" - real and imaginary parts of c in Zn = Zn-1 + c", 1);
+	ft_putstr_fd(" - floats, real and imaginary parts of c\n", 1);
 	return (1);
 }
 
-static void	render_image(t_render *r, t_fract *fract)
+void	render_image(t_render *r)
 {
 	int			i;
 	long double	x;
 	long double	y;
 
-	fract->py = 0;
-	while (fract->py < WIN_HEIGHT)
+	r->f.py = 0;
+	while (r->f.py < WIN_HEIGHT)
 	{
-		fract->px = 0;
-		while (fract->px < WIN_WIDTH)
+		r->f.px = 0;
+		while (r->f.px < WIN_WIDTH)
 		{
-			x = fract->px * fract->scale;
-			y = fract->py * fract->scale;
+			x = (r->f.px - r->f.ox) * r->f.scale;
+			y = (r->f.py + r->f.oy) * r->f.scale;
 			i = 0;
-			while (x * x + y * y < fract->r && i++ < MAX_ITER)
-				fract->zn(&x, &y, fract);
+			while (x * x + y * y < r->f.r && i++ < MAX_ITER)
+				r->f.zn(&x, &y, &r->f);
 			if (i > MAX_ITER)
-				set_pixel_color(r, fract->px++, fract->py, 0);
+				set_pixel_color(r->f.px++, r->f.py, 0, r);
 			else
-				set_pixel_color(r, fract->px++, fract->py, 0x00FFFFFF);
+				set_pixel_color(r->f.px++, r->f.py, 0x00FFFFFF, r);
 		}
-		fract->py++;
+		r->f.py++;
 	}
 	mlx_put_image_to_window(r->mlx, r->win, r->img, 0, 0);
 }
@@ -67,7 +64,9 @@ void	burning_ship(long double *x, long double *y, t_fract *fract)
 {
 	long double	tmp;
 
-	tmp = *x * *x - *y * *y + fract->cx + fract->px * fract->scale;
-	*y = fabsl(2 * *x * *y) + fract->cy + fract->py * fract->scale;
+	tmp = *x * *x - *y * *y + fract->cx
+		+ (fract->px - fract->ox) * fract->scale;
+	*y = fabsl(2 * *x * *y) + fract->cy
+		+ (fract->py + fract->oy) * fract->scale;
 	*x = tmp;
 }
