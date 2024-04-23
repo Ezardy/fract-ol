@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 14:41:36 by zanikin           #+#    #+#             */
-/*   Updated: 2024/04/22 14:38:51 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/04/23 21:57:23 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ void	render_image(t_render *r)
 		r->f.px = 0;
 		while (r->f.px < WIN_WIDTH)
 		{
-			x = (r->f.px + r->f.cx) * r->f.scale + r->f.ox;
-			y = (r->f.py + r->f.cy) * r->f.scale + r->f.oy;
+			x = (r->f.px - WIN_WIDTH / 2) * r->f.scale + r->f.ox;
+			y = (r->f.py - WIN_HEIGHT / 2) * r->f.scale + r->f.oy;
 			i = 0;
 			while (x * x + y * y < r->f.r && i++ < MAX_ITER)
 				r->f.zn(&x, &y, &r->f);

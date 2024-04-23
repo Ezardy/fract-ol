@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:32:14 by zanikin           #+#    #+#             */
-/*   Updated: 2024/04/22 16:40:40 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/04/23 21:54:53 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@
 
 typedef struct s_fract
 {
-	size_t		r;
-	size_t		px;
-	size_t		py;
+	int			r;
+	int			px;
+	int			py;
 	long double	cx;
 	long double	cy;
 	long double	ox;

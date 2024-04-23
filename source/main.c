@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:34:18 by zanikin           #+#    #+#             */
-/*   Updated: 2024/04/23 16:58:38 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/04/23 22:00:32 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ static int	choose_fractal(int argc, char **argv, t_render *r)
 		&& ft_fatol(argv[1], &r->f.cx) && ft_fatol(argv[2], &r->f.cy))
 	{
 		r->f.zn = julia;
-		r->f.ox = -WIN_WIDTH * 0.5 * r->f.scale;
-		r->f.oy = -WIN_HEIGHT * 0.5 * r->f.scale;
 	}
 	else if (argc == 1 && !ft_strncmp(argv[0], "mandel", 6))
 		r->f.zn = mandel;
