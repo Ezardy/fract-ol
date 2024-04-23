@@ -1,11 +1,12 @@
-CFLAGS=-Wall -Wextra -Werror -g
+#CFLAGS=-Wall -Wextra -Werror -g
+CFLAGS=-g
 LFLAGS=-Llibft -Lminilibx
 IFLAGS=-Iheader -I. -Iminilibx
 
 BUILD_DIR=build
 SOURCE_DIR=source
 
-MODULES=main render_util hook fractal_setting
+MODULES=main render hook parse
 OBJ=$(addprefix $(BUILD_DIR)/, $(addsuffix .o, $(MODULES)))
 
 .PHONY: all clean fclean re

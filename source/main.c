@@ -6,11 +6,16 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:34:18 by zanikin           #+#    #+#             */
-/*   Updated: 2024/04/21 19:11:11 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/04/23 16:58:38 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
+
+static int	choose_fractal(int argc, char **argv, t_render *r);
+static void	julia(long double *x, long double *y, t_fract *f);
+static void	burning_ship(long double *x, long double *y, t_fract *fract);
+static void	mandel(long double *x, long double *y, t_fract *f);
 
 int	main(int argc, char **argv)
 {
@@ -34,38 +39,56 @@ int	main(int argc, char **argv)
 	return (1);
 }
 
-void	render_image(t_render *r)
+static int	choose_fractal(int argc, char **argv, t_render *r)
 {
-	int			i;
-	long double	x;
-	long double	y;
+	int	chosen;
 
-	r->f.py = 0;
-	while (r->f.py < WIN_HEIGHT)
+	chosen = 1;
+	r->f.scale = 0.005;
+	r->f.r = 4;
+	r->f.ox = 0;
+	r->f.oy = 0;
+	r->f.cx = -WIN_WIDTH * 0.5;
+	r->f.cy = -WIN_HEIGHT * 0.5;
+	if (argc == 1 && !ft_strncmp(argv[0], "ship", 4))
+		r->f.zn = burning_ship;
+	else if (argc == 3 && !ft_strncmp(argv[0], "julia", 5)
+		&& ft_fatol(argv[1], &r->f.cx) && ft_fatol(argv[2], &r->f.cy))
 	{
-		r->f.px = 0;
-		while (r->f.px < WIN_WIDTH)
-		{
-			x = (r->f.px + r->f.cx) * r->f.scale + r->f.ox;
-			y = (r->f.py + r->f.cy) * r->f.scale + r->f.oy;
-			i = 0;
-			while (x * x + y * y < r->f.r && i++ < MAX_ITER)
-				r->f.zn(&x, &y, &r->f);
-			if (i > MAX_ITER)
-				set_pixel_color(r->f.px++, r->f.py, 0, r);
-			else
-				set_pixel_color(r->f.px++, r->f.py, 0x00FFFFFF, r);
-		}
-		r->f.py++;
+		r->f.zn = julia;
+		r->f.ox = -WIN_WIDTH * 0.5 * r->f.scale;
+		r->f.oy = -WIN_HEIGHT * 0.5 * r->f.scale;
 	}
-	mlx_put_image_to_window(r->mlx, r->win, r->img, 0, 0);
+	else if (argc == 1 && !ft_strncmp(argv[0], "mandel", 6))
+		r->f.zn = mandel;
+	else
+		chosen = 0;
+	return (chosen);
 }
 
-void	burning_ship(long double *x, long double *y, t_fract *f)
+static void	burning_ship(long double *x, long double *y, t_fract *f)
 {
 	long double	tmp;
 
 	tmp = *x * *x - *y * *y + (f->cx + f->px) * f->scale + f->ox;
 	*y = fabsl(2 * *x * *y) + (f->cy + f->py) * f->scale + f->oy;
+	*x = tmp;
+}
+
+static void	julia(long double *x, long double *y, t_fract *f)
+{
+	long double	tmp;
+
+	tmp = *x * *x - *y * *y;
+	*y = 2 * *x * *y + f->cy;
+	*x = tmp + f->cx;
+}
+
+static void	mandel(long double *x, long double *y, t_fract *f)
+{
+	long double	tmp;
+
+	tmp = *x * *x - *y * *y + (f->cx + f->px) * f->scale + f->ox;
+	*y = 2 * *x * *y + (f->cy + f->py) * f->scale + f->oy;
 	*x = tmp;
 }

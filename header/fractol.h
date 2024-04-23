@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:32:14 by zanikin           #+#    #+#             */
-/*   Updated: 2024/04/21 19:03:50 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/04/22 16:40:40 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ typedef struct s_render
 void	render_image(t_render *r);
 int		key_hook(int keycode, t_render *r);
 int		exit_program(t_render *r);
-void	burning_ship(long double *x, long double *y, t_fract *fract);
 void	set_pixel_color(size_t x, size_t y, int color, t_render *r);
-int		choose_fractal(int argc, char **argv, t_render *r);
 int		mouse_hook(int button, int x, int y, t_render *r);
+int		ft_fatol(char *s, long double *n);
 #endif

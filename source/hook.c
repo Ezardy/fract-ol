@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 20:17:21 by zanikin           #+#    #+#             */
-/*   Updated: 2024/04/21 19:39:47 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/04/22 22:04:50 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ int	mouse_hook(int button, int x, int y, t_render *r)
 {
 	if (button == Button4 || button == Button5)
 	{
-		r->f.ox -= (WIN_WIDTH / 2 - x) * 0.25 * r->f.scale;
-		r->f.oy -= (WIN_HEIGHT / 2 - y) * 0.25 * r->f.scale;
 		if (button == Button4)
 			r->f.scale *= 0.98;
 		else
 			r->f.scale *= 1.02;
+
+		//r->f.ox -= (WIN_WIDTH / 2 - x) * 0.25 * r->f.scale;
+		//r->f.oy -= (WIN_HEIGHT / 2 - y) * 0.25 * r->f.scale;
 		render_image(r);
 	}
 	return (0);
