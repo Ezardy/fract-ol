@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/21 14:41:36 by zanikin           #+#    #+#             */
-/*   Updated: 2024/04/24 17:00:53 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/04/24 18:43:04 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static float	saturate(float v, float l, float r)
 	if (v < l)
 		v = l;
 	else if (v > r)
-		r = l;
+		v = r;
 	return (v);
 }
 
