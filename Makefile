@@ -8,7 +8,7 @@ SOURCE_DIR=source
 MODULES=main render hook parse
 OBJ=$(addprefix $(BUILD_DIR)/, $(addsuffix .o, $(MODULES)))
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re bonus memcheck
 
 all: fractol
 
