@@ -6,7 +6,7 @@
 /*   By: zanikin <zanikin@student.42yerevan.am>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:34:18 by zanikin           #+#    #+#             */
-/*   Updated: 2024/04/23 22:00:32 by zanikin          ###   ########.fr       */
+/*   Updated: 2024/04/24 17:11:15 by zanikin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int	main(int argc, char **argv)
 		r.img = mlx_new_image(r.mlx, WIN_WIDTH, WIN_HEIGHT);
 		r.img_buff = mlx_get_data_addr(r.img, &r.pixel_bits, &r.line_bytes,
 				&r.endian);
-		mlx_key_hook(r.win, key_hook, &r);
+		mlx_do_key_autorepeaton(r.mlx);
+		mlx_hook(r.win, KeyPress, 0, key_hook, &r);
 		mlx_mouse_hook(r.win, mouse_hook, &r);
 		mlx_hook(r.win, DestroyNotify, 0, exit_program, &r);
 		render_image(&r);
@@ -50,13 +51,13 @@ static int	choose_fractal(int argc, char **argv, t_render *r)
 	r->f.oy = 0;
 	r->f.cx = -WIN_WIDTH * 0.5;
 	r->f.cy = -WIN_HEIGHT * 0.5;
+	r->lcolor = 0.1;
+	r->rcolor = 0.7;
 	if (argc == 1 && !ft_strncmp(argv[0], "ship", 4))
 		r->f.zn = burning_ship;
 	else if (argc == 3 && !ft_strncmp(argv[0], "julia", 5)
 		&& ft_fatol(argv[1], &r->f.cx) && ft_fatol(argv[2], &r->f.cy))
-	{
 		r->f.zn = julia;
-	}
 	else if (argc == 1 && !ft_strncmp(argv[0], "mandel", 6))
 		r->f.zn = mandel;
 	else

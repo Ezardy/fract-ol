@@ -50,8 +50,8 @@ typedef struct s_render
 	int		pixel_bits;
 	int		line_bytes;
 	int		endian;
-	int		lcolor;
-	int		rcolor;
+	float	lcolor;
+	float	rcolor;
 	t_fract	f;
 }	t_render;
 
