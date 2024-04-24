@@ -22,8 +22,8 @@ int	mouse_hook(int button, int x, int y, t_render *r)
 			r->f.scale *= 0.98;
 		else
 			r->f.scale *= 1.02;
-		//r->f.ox -= (WIN_WIDTH / 2 - x) * 0.25 * r->f.scale;
-		//r->f.oy -= (WIN_HEIGHT / 2 - y) * 0.25 * r->f.scale;
+		r->f.ox -= (WIN_WIDTH / 2 - x) * 0.25 * r->f.scale;
+		r->f.oy -= (WIN_HEIGHT / 2 - y) * 0.25 * r->f.scale;
 		render_image(r);
 	}
 	return (0);
